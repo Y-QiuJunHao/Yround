@@ -10,13 +10,13 @@
     .wrap{max-width:980px;margin:auto;padding:28px 18px 40px}
     .top{display:flex;justify-content:space-between;align-items:start}
     .tag{color:#e9544a;font-weight:900;font-size:13px;letter-spacing:2px}
-    .top h1{margin:5px 0 8px;font-size:clamp(34px,6vw,58px);letter-spacing:-3px}
+    .top h1{margin:5px 0 8px;font-size:clamp(26px,3.5vw,38px);letter-spacing:-1px}
     .top p{margin:0;color:#7b8495}
     .reset{border:1px solid #26324722;background:#ffffffb8;border-radius:99px;padding:9px 14px;font-weight:800;cursor:pointer}
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:24px}
+    .grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
     .card{background:#ffffffdd;border:1px solid #fff;border-radius:28px;box-shadow:0 22px 55px #3f354725}
     .game{padding:30px;text-align:center}
-    .stage{position:relative;width:min(100%,480px);aspect-ratio:1;margin:auto}
+    .stage{position:relative;width:min(100%,650px);aspect-ratio:1;margin:auto}
     .wheel{position:absolute;inset:6%;border:9px solid white;border-radius:50%;background:conic-gradient(from -18deg,#ff9c8f 0 36deg,#ffd56a 36deg 72deg,#8fc4ff 72deg 108deg,#a9d99a 108deg 144deg,#c5a4e8 144deg 180deg,#ffb57c 180deg 216deg,#82d6cf 216deg 252deg,#f39bc2 252deg 288deg,#a9b7ff 288deg 324deg,#f3c27b 324deg);box-shadow:0 12px 30px #2632472b;transition:transform 2.45s cubic-bezier(.08,.76,.17,1)}
     .wheel.spin{animation:spin .42s linear infinite}
     @keyframes spin{from{transform:rotate(var(--spin-from,0deg))}to{transform:rotate(calc(var(--spin-from,0deg) + 360deg))}}
