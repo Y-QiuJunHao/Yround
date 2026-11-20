@@ -215,7 +215,7 @@
       }
     };
 
-    $("reset").onclick = () => {
+    $("reset")?.addEventListener("click", () => {
       if (spinning || stopping) return;
       if (!confirm("確定要清除抽籤紀錄，重新開始嗎？")) return;
       progress = { drawn: [], retriesLeft: randomRetryCount() };
@@ -223,7 +223,7 @@
       rotateWheel(currentAngle(), 0, { duration: 450, easing: "ease" });
       wheel.style.transform = "rotate(0deg)";
       update();
-    };
+    });
 
     $("close").onclick = hideResult;
     $("ok").onclick = hideResult;
