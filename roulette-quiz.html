@@ -9,19 +9,17 @@
     body{margin:0;min-height:100vh;background:linear-gradient(135deg,#fff8e8,#fff0ee 55%,#edf4ff);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:#263247}
     .wrap{max-width:980px;margin:auto;padding:28px 18px 40px}
     .top{display:flex;justify-content:space-between;align-items:start}
-    .tag{color:#e9544a;font-weight:900;font-size:13px;letter-spacing:2px}
     .top h1{margin:5px 0 8px;font-size:clamp(26px,3.5vw,38px);letter-spacing:-1px}
-    .top p{margin:0;color:#7b8495}
     .reset{border:1px solid #26324722;background:#ffffffb8;border-radius:99px;padding:9px 14px;font-weight:800;cursor:pointer}
     .grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
     .card{background:#ffffffdd;border:1px solid #fff;border-radius:28px;box-shadow:0 22px 55px #3f354725}
     .game{padding:30px;text-align:center}
     .stage{position:relative;width:min(100%,650px);aspect-ratio:1;margin:auto}
-    .wheel{position:absolute;inset:6%;border:9px solid white;border-radius:50%;background:conic-gradient(from -18deg,#ff9c8f 0 36deg,#ffd56a 36deg 72deg,#8fc4ff 72deg 108deg,#a9d99a 108deg 144deg,#c5a4e8 144deg 180deg,#ffb57c 180deg 216deg,#82d6cf 216deg 252deg,#f39bc2 252deg 288deg,#a9b7ff 288deg 324deg,#f3c27b 324deg);box-shadow:0 12px 30px #2632472b;transition:transform 2.45s cubic-bezier(.08,.76,.17,1)}
-    .wheel.spin{animation:spin .42s linear infinite}
-    @keyframes spin{from{transform:rotate(var(--spin-from,0deg))}to{transform:rotate(calc(var(--spin-from,0deg) + 360deg))}}
+    .wheel{position:absolute;inset:6%;border:9px solid white;border-radius:50%;background:conic-gradient(from -18deg,#ff9c8f 0 36deg,#ffd56a 36deg 72deg,#8fc4ff 72deg 108deg,#a9d99a 108deg 144deg,#c5a4e8 144deg 180deg,#ffb57c 180deg 216deg,#82d6cf 216deg 252deg,#f39bc2 252deg 288deg,#a9b7ff 288deg 324deg,#f3c27b 324deg);box-shadow:0 12px 30px #2632472b}
     .n{position:absolute;left:50%;top:50%;width:16%;aspect-ratio:1;display:grid;place-items:center;color:#fff;font-size:clamp(16px,3vw,24px);font-weight:1000;text-shadow:0 2px 4px #26324799,0 0 2px #263247aa;transform:translate(-50%,-50%) rotate(var(--a)) translateY(-265%) rotate(calc(var(--a)*-1));user-select:none}
     .n.used{opacity:.28}
+    .n{white-space:nowrap}
+    .n.retry{font-size:clamp(11px,2.4vw,20px)}
     .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:20%;aspect-ratio:1;border:6px solid white;border-radius:50%;background:#ff6f61;color:white;font-size:24px;box-shadow:0 6px 14px #85383a44}
     .pointer{position:absolute;z-index:2;left:50%;top:-2px;transform:translateX(-50%);border-left:18px solid transparent;border-right:18px solid transparent;border-top:32px solid #ff6f61;filter:drop-shadow(0 4px 3px #26324744)}
     .start{margin-top:18px;border:0;border-radius:99px;background:#ff6f61;color:white;padding:14px 34px;min-width:190px;font-size:18px;font-weight:900;box-shadow:0 9px 0 #e9544a;cursor:pointer}
@@ -29,7 +27,6 @@
     .start:disabled{opacity:.5;cursor:not-allowed}
     .help{color:#7b8495;font-size:14px}
     .info{padding:28px}
-    .label{color:#e9544a;font-weight:900;font-size:12px;letter-spacing:2px}
     .info h2{margin:6px 0 22px;font-size:23px}
     .status{border-bottom:1px dashed #26324733;padding-bottom:14px;display:flex;justify-content:space-between;align-items:end}
     .status b{font-size:36px;color:#e9544a}
@@ -67,7 +64,7 @@
             <span class="n" style="--a:72deg">士億</span><span class="n" style="--a:108deg">家慈</span>
             <span class="n" style="--a:144deg">芑柔</span><span class="n" style="--a:180deg">惠蘭</span>
             <span class="n" style="--a:216deg">俊宏</span><span class="n" style="--a:252deg">峰欽</span>
-            <span class="n" style="--a:288deg">校長</span><span class="n" style="--a:324deg">再來一次</span>
+            <span class="n" style="--a:288deg">校長</span><span class="n retry" style="--a:324deg">再來一次</span>
             <span class="hub">✦</span>
           </div>
         </div>
@@ -94,26 +91,24 @@
   </div>
 
   <script>
-    const questions = [
-      null,
-      "台灣第一天團，1999 年出道，當年那首《瘋狂世界》和《擁抱》直接炸翻校園。",
-      "2000 年戴著鴨舌帽出道，咬字不清卻開創了華語 R&B 時代，現在全台小學生都還在唱他的《聽媽媽的話》。",
-      "2003 年以《看我72變》轉型天后，當時每個女生去 KTV 都要點《倒帶》來哭一下。",
-      "經典男女對唱：「屋頂唱著你的歌，在屋頂和我愛的人…」請問原唱男女歌手是誰？",
-      "2001 年全台瘋追偶像劇《流星花園》，F4 成員是？",
-      "今天上的第一道菜是什麼？",
-      "根據統計，一個孩子從出生到學會自己上廁所，平均大約會用掉多少片尿布？\n\nA) 約 2,000 片\nB) 約 4,000 片\nC) 約 6,000 - 8,000 片",
-      "餐廳的招牌菜是？",
-      "請推薦一個你帶小孩去過，最能「消耗他們體力」的秘密基地？",
-      "小孩讓你很感動的一件事？"
-    ];
-
-    const storageKey = "roulette-quiz-drawn-v1";
-    let used = [];
-    try { used = JSON.parse(localStorage.getItem(storageKey) || "[]"); } catch (error) { used = []; }
+    const eligible = ["俊宏", "峰欽", "校長"];
+    const retryLabel = "再來一次";
+    const storageKey = "roulette-people-v1";
+    const readyMessage = "按下「開始」轉動輪盤，再按「停止」。";
+    let progress = { drawn: [], retriesLeft: 0 };
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey));
+      if (saved && Array.isArray(saved.drawn) &&
+          saved.drawn.every(name => eligible.includes(name)) &&
+          new Set(saved.drawn).size === saved.drawn.length &&
+          Number.isInteger(saved.retriesLeft) && saved.retriesLeft >= 0 && saved.retriesLeft <= 3) {
+        progress = saved;
+      }
+    } catch (error) {}
 
     let spinning = false;
     let stopping = false;
+    let wheelAnimation;
     const $ = id => document.getElementById(id);
     const wheel = $("wheel");
     const start = $("start");
@@ -121,111 +116,112 @@
     const modal = $("modal");
     const nodes = [...document.querySelectorAll(".n")];
 
-    function saveUsed() {
-      try { localStorage.setItem(storageKey, JSON.stringify(used)); } catch (error) {}
+    function saveProgress() {
+      try { localStorage.setItem(storageKey, JSON.stringify(progress)); } catch (error) {}
     }
 
     function available() {
-      return [1,2,3,4,5,6,7,8,9,10].filter(number => !used.includes(number));
+      return eligible.filter(name => !progress.drawn.includes(name));
     }
 
     function currentAngle() {
-      const transform = getComputedStyle(wheel).transform;
-      if (transform === "none") return Number(wheel.dataset.angle || 0);
-      const start = transform.indexOf("(");
-      const end = transform.lastIndexOf(")");
-      if (start < 0 || end < 0) return Number(wheel.dataset.angle || 0);
-      const values = transform.slice(start + 1, end).split(",").map(Number);
-      return Math.atan2(values[1], values[0]) * 180 / Math.PI;
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(wheel).transform.replace(/^none$/, ""));
+      return Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
     }
 
-    function wrap180(value) { return ((value + 180) % 360 + 360) % 360 - 180; }
+    function rotateWheel(from, to, options) {
+      wheelAnimation?.cancel();
+      wheelAnimation = wheel.animate([
+        { transform: `rotate(${from}deg)` },
+        { transform: `rotate(${to}deg)` }
+      ], options);
+      return wheelAnimation;
+    }
 
     function update() {
-      $("left").textContent = 10 - used.length;
-      nodes.forEach(node => node.classList.toggle("used", used.includes(Number(node.textContent))));
-      $("list").innerHTML = used.length
-        ? used.map(number => `<span class="chip">${number}</span>`).join("")
-        : '<span class="empty">還沒有抽過的號碼，準備好了嗎？</span>';
-      if (used.length === 10 && !spinning) {
-        start.disabled = true;
-        help.textContent = "十題都抽完了！按右上角「重頭」再玩一次。";
-      }
+      const { drawn } = progress;
+      const finished = drawn.length === eligible.length;
+      $("left").textContent = drawn.length;
+      nodes.forEach(node => node.classList.toggle("used", drawn.includes(node.textContent)));
+      $("list").innerHTML = drawn.length
+        ? drawn.map(name => `<span class="chip">${name}</span>`).join("")
+        : '<span class="empty">還沒有人被抽到</span>';
+      start.disabled = finished;
+      start.textContent = finished ? "抽完了" : "開始";
+      help.textContent = finished ? "三位都抽完了，遊戲結束！" : readyMessage;
     }
 
-    function showQuestion(number) {
-      $("badge").textContent = number;
-      $("question").textContent = questions[number];
+    function showResult(result) {
+      $("result").textContent = result;
       modal.classList.add("open");
     }
 
-    function hideQuestion() { modal.classList.remove("open"); }
+    function hideResult() { modal.classList.remove("open"); }
 
-    function stopWheel() {
-      const number = available()[Math.floor(Math.random() * available().length)];
+    async function stopWheel() {
+      const remaining = available();
+      const result = progress.retriesLeft > 0
+        ? retryLabel
+        : remaining[Math.floor(Math.random() * remaining.length)];
+      const segment = nodes.find(node => node.textContent === result);
+      const landingAngle = -parseFloat(segment.style.getPropertyValue("--a"));
       const now = currentAngle();
-      const offset = Math.random() * 20 - 10;
-      const desired = -(number - 1) * 36 + offset;
-      const delta = wrap180(desired - now);
-      const target = now + 1440 + delta;
-
-      wheel.classList.remove("spin");
-      wheel.style.transition = "none";
-      wheel.style.transform = `rotate(${now}deg)`;
-      wheel.offsetWidth;
-      wheel.style.transition = "transform 2.45s cubic-bezier(.08,.76,.17,1)";
-      wheel.style.transform = `rotate(${target}deg)`;
-      wheel.dataset.angle = target;
+      const forward = ((landingAngle - now) % 360 + 360) % 360;
       stopping = true;
       help.textContent = "輪盤正在慢慢減速……";
 
-      window.setTimeout(() => {
-        used.push(number);
-        saveUsed();
-        stopping = false;
-        spinning = false;
-        start.classList.remove("stop");
-        start.textContent = used.length === 10 ? "抽完了" : "開始";
-        update();
-        if (used.length < 10) help.textContent = "按下開始，再按一次停止抽題";
-        showQuestion(number);
-      }, 2500);
+      const stop = rotateWheel(now, now + 1440 + forward, {
+        duration: 2450,
+        easing: "cubic-bezier(.08,.76,.17,1)",
+        fill: "forwards"
+      });
+      await stop.finished;
+      wheel.style.transform = `rotate(${landingAngle}deg)`;
+      stop.cancel();
+
+      if (result === retryLabel) {
+        progress.retriesLeft -= 1;
+      } else {
+        progress.drawn.push(result);
+        progress.retriesLeft = available().length ? 1 + Math.floor(Math.random() * 3) : 0;
+      }
+      saveProgress();
+      stopping = false;
+      spinning = false;
+      start.classList.remove("stop");
+      update();
+      showResult(result);
     }
 
     start.onclick = () => {
       if (stopping) return;
       if (!spinning) {
         if (!available().length) return;
-        wheel.style.setProperty("--spin-from", `${currentAngle()}deg`);
-        wheel.classList.add("spin");
+        const now = currentAngle();
+        rotateWheel(now, now + 360, { duration: 420, iterations: Infinity });
         spinning = true;
         start.classList.add("stop");
         start.textContent = "停止";
-        help.textContent = "再按一次停止，看看會抽到幾號！";
+        help.textContent = "按「停止」查看結果。";
       } else {
-        stopWheel();
+        return stopWheel();
       }
     };
 
     $("reset").onclick = () => {
       if (spinning || stopping) return;
-      if (!confirm("確定要清除已抽過的號碼，重新開始嗎？")) return;
-      used = [];
-      saveUsed();
-      wheel.classList.remove("spin");
-      wheel.style.transition = "transform .45s ease";
+      if (!confirm("確定要清除抽籤紀錄，重新開始嗎？")) return;
+      progress = { drawn: [], retriesLeft: 0 };
+      saveProgress();
+      rotateWheel(currentAngle(), 0, { duration: 450, easing: "ease" });
       wheel.style.transform = "rotate(0deg)";
-      wheel.dataset.angle = 0;
-      start.disabled = false;
-      start.textContent = "開始";
-      help.textContent = "按下開始，再按一次停止抽題";
       update();
     };
 
-    $("close").onclick = hideQuestion;
-    $("ok").onclick = hideQuestion;
-    modal.onclick = event => { if (event.target === modal) hideQuestion(); };
-    document.onkeydown = event => { if (event.key === "Escape") hideQuestion(); };
+    $("close").onclick = hideResult;
+    $("ok").onclick = hideResult;
+    modal.onclick = event => { if (event.target === modal) hideResult(); };
+    document.onkeydown = event => { if (event.key === "Escape") hideResult(); };
     update();
   </script>
 </body>
