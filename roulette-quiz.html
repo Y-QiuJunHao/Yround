@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>抽題小遊戲</title>
+  <title>輪盤抽人</title>
   <style>
     *{box-sizing:border-box}
     body{margin:0;min-height:100vh;background:linear-gradient(135deg,#fff8e8,#fff0ee 55%,#edf4ff);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:#263247}
@@ -35,7 +35,7 @@
     .status b{font-size:36px;color:#e9544a}
     .status span{color:#7b8495;font-size:14px}
     .list{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;min-height:40px}
-    .chip{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#263247;color:white;font-weight:900}
+    .chip{min-height:38px;padding:0 12px;border-radius:99px;display:grid;place-items:center;background:#263247;color:white;font-weight:900}
     .empty{color:#7b8495;font-size:14px}
     .rules{margin-top:25px;padding:15px 16px;background:#ffc8572b;border-radius:17px;color:#5e6370;line-height:1.7;font-size:14px}
     .rules p{margin:0}
@@ -44,8 +44,7 @@
     .box{position:relative;background:#fffaf0;border-radius:28px;padding:40px;max-width:600px;width:100%;box-shadow:0 25px 70px #1118274a}
     .close{position:absolute;right:15px;top:13px;border:0;border-radius:50%;width:35px;height:35px;background:#26324714;font-size:23px;cursor:pointer}
     .kicker{color:#e9544a;font-weight:900}
-    .badge{width:68px;height:68px;border-radius:22px;background:#ff6f61;color:white;display:grid;place-items:center;font-size:34px;font-weight:900}
-    .question{white-space:pre-line;font-size:clamp(22px,4vw,30px);line-height:1.65}
+    .result{margin:12px 0 0;font-size:clamp(30px,6vw,48px);font-weight:900}
     .ok{display:block;margin:22px 0 0 auto;border:0;background:#263247;color:white;border-radius:99px;padding:11px 23px;font-weight:900;cursor:pointer}
     @media(max-width:750px){.grid{grid-template-columns:1fr}.info{order:-1}.game,.info{padding:20px}}
   </style>
@@ -54,9 +53,7 @@
   <main class="wrap">
     <header class="top">
       <div>
-        <div class="tag">✦ 隨機抽題小遊戲</div>
-        <h1>抽題小遊戲</h1>
-        <p>轉動輪盤，讓好問題自己跳出來。</p>
+        <h1>輪盤抽人</h1>
       </div>
       <button class="reset" id="reset">↻ 重頭</button>
     </header>
@@ -66,24 +63,23 @@
         <div class="stage">
           <div class="pointer"></div>
           <div class="wheel" id="wheel">
-            <span class="n" style="--a:0deg">1</span><span class="n" style="--a:36deg">2</span>
-            <span class="n" style="--a:72deg">3</span><span class="n" style="--a:108deg">4</span>
-            <span class="n" style="--a:144deg">5</span><span class="n" style="--a:180deg">6</span>
-            <span class="n" style="--a:216deg">7</span><span class="n" style="--a:252deg">8</span>
-            <span class="n" style="--a:288deg">9</span><span class="n" style="--a:324deg">10</span>
+            <span class="n" style="--a:0deg">育蕙</span><span class="n" style="--a:36deg">景昌</span>
+            <span class="n" style="--a:72deg">士億</span><span class="n" style="--a:108deg">家慈</span>
+            <span class="n" style="--a:144deg">芑柔</span><span class="n" style="--a:180deg">惠蘭</span>
+            <span class="n" style="--a:216deg">俊宏</span><span class="n" style="--a:252deg">峰欽</span>
+            <span class="n" style="--a:288deg">校長</span><span class="n" style="--a:324deg">再來一次</span>
             <span class="hub">✦</span>
           </div>
         </div>
         <button class="start" id="start">開始</button>
-        <p class="help" id="help">按下開始，再按一次停止抽題</p>
+        <p class="help" id="help">按下「開始」轉動輪盤，再按「停止」。</p>
       </section>
 
       <aside class="card info">
-        <div class="label">抽題進度</div>
-        <h2>每一題，都是一個小故事。</h2>
-        <div class="status"><b id="left">10</b><span>題尚未抽出</span></div>
-        <div class="list" id="list"><span class="empty">還沒有抽過的號碼，準備好了嗎？</span></div>
-        <div class="rules"><p>🎯 抽過的號碼不會再次出現。</p><p>🔁 想重新開始，請按右上角「重頭」。</p></div>
+        <h2>抽籤進度</h2>
+        <div class="status"><b id="left">0</b><span>位已抽出</span></div>
+        <div class="list" id="list"><span class="empty">還沒有人被抽到</span></div>
+        <div class="rules"><p>🔁 想重新開始，請按右上角「重頭」。</p></div>
       </aside>
     </section>
   </main>
@@ -91,9 +87,8 @@
   <div class="modal" id="modal">
     <div class="box">
       <button class="close" id="close">×</button>
-      <div class="kicker">本次抽到的題目</div>
-      <div class="badge" id="badge">1</div>
-      <p class="question" id="question"></p>
+      <div class="kicker">本次結果</div>
+      <p class="result" id="result"></p>
       <button class="ok" id="ok">知道了</button>
     </div>
   </div>
