@@ -50,9 +50,9 @@
   <main class="wrap">
     <header class="top">
       <div>
-        <h1>輪盤抽人</h1>
+        <h1>誰來唱歌</h1>
       </div>
-      <button class="reset" id="reset">↻ 重頭</button>
+      <!-- <button class="reset" id="reset">↻ 重頭</button> -->
     </header>
 
     <section class="grid">
@@ -93,16 +93,23 @@
   <script>
     const eligible = ["俊宏", "峰欽", "校長"];
     const retryLabel = "再來一次";
-    const storageKey = "roulette-people-v1";
+    const storageKey = "roulette-people-v2";
     const readyMessage = "按下「開始」轉動輪盤，再按「停止」。";
-    let progress = { drawn: [], retriesLeft: 0 };
+    function randomRetryCount() {
+      return 1 + Math.floor(Math.random() * 3);
+    }
+
+    let progress = { drawn: [], retriesLeft: randomRetryCount() };
     try {
-      const saved = JSON.parse(localStorage.getItem(storageKey));
+      const saved = JSON.parse(localStorage.getItem(storageKey) ??
+        localStorage.getItem("roulette-people-v1"));
       if (saved && Array.isArray(saved.drawn) &&
           saved.drawn.every(name => eligible.includes(name)) &&
           new Set(saved.drawn).size === saved.drawn.length &&
           Number.isInteger(saved.retriesLeft) && saved.retriesLeft >= 0 && saved.retriesLeft <= 3) {
-        progress = saved;
+        if (localStorage.getItem(storageKey) !== null || saved.drawn.length > 0) {
+          progress = saved;
+        }
       }
     } catch (error) {}
 
@@ -183,7 +190,7 @@
         progress.retriesLeft -= 1;
       } else {
         progress.drawn.push(result);
-        progress.retriesLeft = available().length ? 1 + Math.floor(Math.random() * 3) : 0;
+        progress.retriesLeft = available().length ? randomRetryCount() : 0;
       }
       saveProgress();
       stopping = false;
@@ -211,7 +218,7 @@
     $("reset").onclick = () => {
       if (spinning || stopping) return;
       if (!confirm("確定要清除抽籤紀錄，重新開始嗎？")) return;
-      progress = { drawn: [], retriesLeft: 0 };
+      progress = { drawn: [], retriesLeft: randomRetryCount() };
       saveProgress();
       rotateWheel(currentAngle(), 0, { duration: 450, easing: "ease" });
       wheel.style.transform = "rotate(0deg)";
