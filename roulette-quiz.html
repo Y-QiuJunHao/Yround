@@ -124,6 +124,14 @@
     const modal = $("modal");
     const nodes = [...document.querySelectorAll(".n")];
 
+    const nameSlots = nodes.filter(node => node.textContent !== retryLabel);
+    const names = nameSlots.map(node => node.textContent);
+    for (let index = names.length - 1; index > 0; index -= 1) {
+      const other = Math.floor(Math.random() * (index + 1));
+      [names[index], names[other]] = [names[other], names[index]];
+    }
+    nameSlots.forEach((node, index) => { node.textContent = names[index]; });
+
     function saveProgress() {
       try { localStorage.setItem(storageKey, JSON.stringify(progress)); } catch (error) {}
     }
